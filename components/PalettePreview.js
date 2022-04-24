@@ -33,11 +33,12 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 15,
     fontWeight: 'bold',
-    marginTop: 10,
+    marginBottom: 5,
+    marginTop: 20,
   },
   list: {
     flexDirection: 'row',
-    marginBottom: 30,
+    marginBottom: 10,
   },
 });
 
