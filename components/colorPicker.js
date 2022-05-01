@@ -1,16 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, Switch } from 'react-native';
 
 const ColorPicker = (props) => {
-  const [value, setValue] = useState(false);
-
   return (
     <View style={styles.container}>
       <View style={styles.textContainer}>
-        <Text style={styles.text}>{props.colorName}</Text>
+        <Text style={styles.text}>{props.color.colorName}</Text>
       </View>
       <View style={styles.switch}>
-        <Switch value={value} onValueChange={setValue} />
+        <Switch
+          value={
+            !!props.selectedColors.find(
+              (color) => color.colorName === props.color.colorName,
+            )
+          }
+          onValueChange={(newValue) => props.update(props.color, newValue)}
+        />
       </View>
     </View>
   );
@@ -34,7 +39,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 20,
-  }
+  },
 });
 
 export default ColorPicker;

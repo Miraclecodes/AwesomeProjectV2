@@ -3,8 +3,9 @@ import { Text, StyleSheet, RefreshControl } from 'react-native';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import PalettePreview from '../components/PalettePreview';
 
-const Home = ({ navigation }) => {
+const Home = ({ navigation, route }) => {
   const [colorPalletes, setColorPalettes] = useState([]);
+  const newPalette = route.params ? route.params.newPalette : null;
 
   const handleFetchColorPalettes = useCallback(async () => {
     const result = await fetch(
@@ -18,7 +19,13 @@ const Home = ({ navigation }) => {
 
   useEffect(() => {
     handleFetchColorPalettes();
-  }, [handleFetchColorPalettes]);
+  }, []);
+
+  useEffect(() => {
+    if (newPalette) {
+      setColorPalettes((current) => [newPalette, ...current]);
+    }
+  }, [newPalette]);
 
   const [isRefreshing, setIsRefreshing] = useState(false);
 
@@ -36,7 +43,11 @@ const Home = ({ navigation }) => {
     <>
       <TouchableOpacity
         style={styles.modalButton}
-        onPress={() => navigation.navigate('AddNewPalette')}
+        onPress={() =>
+          navigation.navigate('AddNewPalette', {
+            numberOfPalettes: colorPalletes.length,
+          })
+        }
       >
         <Text style={styles.buttonText}>Add a color palette</Text>
       </TouchableOpacity>
